@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para o Meu Amor 💙</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main class="cartao-dedicatoria">
+        <header>
+            <span class="icone-topo">✨💙✨</span>
+            
+            <h1>Para a pessoa mais especial da minha vida</h1>
+            
+            <p class="subtitulo">Uma homenagem para a pessoa que está cmoigo todos os dias, até quando estou insuportável (nunca estive).</p>
+        </header>
+
+        <hr class="divisor">
+
+        <section class="bloco-texto">
+            <p>
+                Meu primeiro site é totalmente dedicado a você, meu amor! 💝
+            </p>
+        </section>
+
+        <hr class="divisor">
+
+        <section class="bloco-texto">
+            <p>
+                Quisera eu ser imortal para poder te amar por toda a eternidade. Que sorte a nossa de nos encontrarmos tão novos para vivermos nosso amor a vida inteira! 🧑‍❤️‍💋‍🧑
+            </p>
+        </section>
+
+        <hr class="divisor">
+
+        <section class="bloco-texto">
+            <p>
+                Obrigado por estar sempre ao meu lado, me apoiando e me fazendo sorrir. Você é a razão do meu sorriso e a luz que ilumina meus dias. Não sei o que faria sem você! ❣️
+            </p>
+        </section>
+
+        <hr class="divisor">
+
+        <section class="area-foto">
+        
+
+            <div class="carrossel-wrapper">
+                <!-- Botão voltar (computador/celular) -->
+                <button class="btn-carrossel btn-anterior" aria-label="Foto anterior">&#10094;</button>
+
+                <!-- Lista de fotos (arrastável no celular e no mouse) -->
+                <div class="carrossel-fotos" id="carrosselFotos">
+
+                    <!-- FOTO 1 (Já com a sua foto e frase!) -->
+                    <figure class="moldura-foto">
+                        <img src="nossa_foto.jpeg" alt="Nossa foto juntos 1" draggable="false">
+                        <figcaption class="legenda-foto">Te amo mais que paçoca! 🥜</figcaption>
+                    </figure>
+
+                    <!-- FOTO 2: Troque o src pela sua 2ª foto e edite a frase abaixo -->
+                    <figure class="moldura-foto">
+                        <img src="nossa-foto2.jpeg" alt="Nossa foto juntos 2" draggable="false">
+                        <figcaption class="legenda-foto">Cada momento com você é único 💗</figcaption>
+                    </figure>
+
+                    <!-- FOTO 3: Troque o src pela sua 3ª foto e edite a frase abaixo -->
+                    <figure class="moldura-foto">
+                        <img src="nossa-foto3.jpeg" alt="Nossa foto juntos 3" draggable="false">
+                        <figcaption class="legenda-foto">Meu lugar favorito é no seu abraço 🤗</figcaption>
+                    </figure>
+
+                    <!-- FOTO 4: Troque o src pela sua 4ª foto e edite a frase abaixo -->
+                    <figure class="moldura-foto">
+                        <img src="nossa-foto4.jpeg" alt="Nossa foto juntos 4" draggable="false">
+                        <figcaption class="legenda-foto">Para sempre nós dois! ♾️❤️</figcaption>
+                    </figure>
+
+                </div>
+
+                <!-- Botão avançar (computador/celular) -->
+                <button class="btn-carrossel btn-proximo" aria-label="Próxima foto">&#10095;</button>
+            </div>
+
+            <!-- Bolinhas indicadoras de qual foto está aparecendo -->
+            <div class="indicadores" id="indicadoresCarrossel">
+                <span class="ponto ativo" data-index="0"></span>
+                <span class="ponto" data-index="1"></span>
+                <span class="ponto" data-index="2"></span>
+                <span class="ponto" data-index="3"></span>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        const carrossel = document.getElementById('carrosselFotos');
+        const btnAnterior = document.querySelector('.btn-anterior');
+        const btnProximo = document.querySelector('.btn-proximo');
+        const pontos = document.querySelectorAll('.ponto');
+        const slidesOriginais = Array.from(carrossel.querySelectorAll('.moldura-foto'));
+        const total = slidesOriginais.length;
+
+        // Cria clones da última e da primeira foto nas pontas para fazer a rolagem infinita
+        const cloneUltimo = slidesOriginais[total - 1].cloneNode(true);
+        const clonePrimeiro = slidesOriginais[0].cloneNode(true);
+        carrossel.insertBefore(cloneUltimo, slidesOriginais[0]);
+        carrossel.appendChild(clonePrimeiro);
+
+        // Calcula a largura de cada foto + o espaço entre elas (20px)
+        function larguraDoSlide() {
+            return slidesOriginais[0].offsetWidth + 20;
+        }
+
+        // Posiciona inicialmente na 1ª foto real (pulando o clone inicial)
+        function posicionarNoInicio() {
+            carrossel.scrollLeft = larguraDoSlide();
+        }
+        window.addEventListener('load', posicionarNoInicio);
+        window.addEventListener('resize', posicionarNoInicio);
+        posicionarNoInicio();
+
+        let timerRolagem = null;
+
+        // Atualiza as bolinhas e faz o teleporte invisível quando chega nas pontas
+        function aoRolar() {
+            const largura = larguraDoSlide();
+            if (!largura) return;
+
+            const pos = Math.round(carrossel.scrollLeft / largura);
+            const indexReal = ((pos - 1) % total + total) % total;
+
+            pontos.forEach((ponto, idx) => {
+                ponto.classList.toggle('ativo', idx === indexReal);
+            });
+
+            // Quando encosta nas extremidades dos clones, reposiciona invisivelmente
+            if (carrossel.scrollLeft <= 2) {
+                carrossel.scrollLeft += total * largura;
+                if (arrastando) scrollInicial += total * largura;
+            } else if (carrossel.scrollLeft >= (total + 1) * largura - 2) {
+                carrossel.scrollLeft -= total * largura;
+                if (arrastando) scrollInicial -= total * largura;
+            }
+
+            // Garante o ajuste exato após terminar a animação de rolagem
+            clearTimeout(timerRolagem);
+            timerRolagem = setTimeout(() => {
+                const posFinal = Math.round(carrossel.scrollLeft / largura);
+                if (posFinal === 0) {
+                    carrossel.scrollLeft = total * largura;
+                } else if (posFinal === total + 1) {
+                    carrossel.scrollLeft = largura;
+                }
+            }, 120);
+        }
+
+        carrossel.addEventListener('scroll', aoRolar);
+
+        // Move suavemente para uma posição do carrossel (1 a total, ou 0 / total+1 nos clones)
+        function irParaPosicao(posDestino) {
+            const largura = larguraDoSlide();
+            carrossel.scrollTo({
+                left: posDestino * largura,
+                behavior: 'smooth'
+            });
+        }
+
+        function voltarFoto() {
+            const largura = larguraDoSlide();
+            if (!largura) return;
+            let posAtual = Math.round(carrossel.scrollLeft / largura);
+            if (posAtual <= 0) {
+                carrossel.scrollLeft = total * largura;
+                requestAnimationFrame(() => irParaPosicao(total - 1));
+            } else {
+                irParaPosicao(posAtual - 1);
+            }
+        }
+
+        function avancarFoto() {
+            const largura = larguraDoSlide();
+            if (!largura) return;
+            let posAtual = Math.round(carrossel.scrollLeft / largura);
+            if (posAtual >= total + 1) {
+                carrossel.scrollLeft = largura;
+                requestAnimationFrame(() => irParaPosicao(2));
+            } else {
+                irParaPosicao(posAtual + 1);
+            }
+        }
+
+        // ==========================================
+        // PASSAR FOTOS SOZINHO A CADA 1 SEGUNDO
+        // ==========================================
+        const TEMPO_TROCA = 2000; // 2000ms = 2 segundos
+        let intervaloAutoPlay = null;
+
+        function iniciarAutoPlay() {
+            pararAutoPlay();
+            intervaloAutoPlay = setInterval(avancarFoto, TEMPO_TROCA);
+        }
+
+        function pararAutoPlay() {
+            if (intervaloAutoPlay) {
+                clearInterval(intervaloAutoPlay);
+                intervaloAutoPlay = null;
+            }
+        }
+
+        iniciarAutoPlay();
+
+        btnAnterior.addEventListener('click', () => {
+            voltarFoto();
+            iniciarAutoPlay();
+        });
+
+        btnProximo.addEventListener('click', () => {
+            avancarFoto();
+            iniciarAutoPlay();
+        });
+
+        pontos.forEach((ponto) => {
+            ponto.addEventListener('click', () => {
+                const indexFoto = Number(ponto.dataset.index);
+                irParaPosicao(indexFoto + 1);
+                iniciarAutoPlay();
+            });
+        });
+
+        // Pausa enquanto o dedo estiver na tela do celular e retoma ao soltar
+        carrossel.addEventListener('touchstart', pararAutoPlay, { passive: true });
+        carrossel.addEventListener('touchend', iniciarAutoPlay, { passive: true });
+
+        // Permite arrastar com o mouse no computador com loop infinito
+        let arrastando = false;
+        let inicioX = 0;
+        let scrollInicial = 0;
+
+        carrossel.addEventListener('mousedown', (e) => {
+            pararAutoPlay();
+            arrastando = true;
+            carrossel.classList.add('arrastando');
+            inicioX = e.pageX - carrossel.offsetLeft;
+            scrollInicial = carrossel.scrollLeft;
+        });
+
+        window.addEventListener('mouseup', () => {
+            if (!arrastando) return;
+            arrastando = false;
+            carrossel.classList.remove('arrastando');
+            const posMaisProxima = Math.round(carrossel.scrollLeft / larguraDoSlide());
+            irParaPosicao(posMaisProxima);
+            iniciarAutoPlay();
+        });
+
+        carrossel.addEventListener('mousemove', (e) => {
+            if (!arrastando) return;
+            e.preventDefault();
+            const x = e.pageX - carrossel.offsetLeft;
+            const deslocamento = (x - inicioX) * 1.2;
+            carrossel.scrollLeft = scrollInicial - deslocamento;
+        });
+    </script>
+</body>
+</html>

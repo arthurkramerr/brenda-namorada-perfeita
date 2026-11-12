@@ -1,0 +1,253 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;500&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7db9e8 100%);
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    color: #2c3e50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.cartao-dedicatoria {
+    background-color: rgba(255, 255, 255, 0.95);
+    max-width: 680px;
+    width: 100%;
+    border-radius: 24px;
+    padding: 48px 40px;
+    box-shadow: 0 20px 50px rgba(10, 30, 70, 0.35);
+    border: 2px solid rgba(125, 185, 232, 0.5);
+    text-align: center;
+}
+
+header {
+    margin-bottom: 30px;
+}
+
+.icone-topo {
+    font-size: 2rem;
+    color: #2a5298;
+    margin-bottom: 8px;
+    display: block;
+}
+
+h1 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3rem;
+    color: #1e3c72;
+    line-height: 1.2;
+    margin-bottom: 10px;
+}
+
+.subtitulo {
+    font-size: 0.95rem;
+    color: #5b7db1;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+.bloco-texto {
+    padding: 10px 0;
+}
+
+.bloco-texto p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #34495e;
+    text-align: justify;
+    text-align-last: center;
+}
+
+.divisor {
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #6fa3ef, transparent);
+    margin: 28px auto;
+    width: 85%;
+    position: relative;
+    overflow: visible;
+}
+
+.divisor::after {
+    content: "💙";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #f4f8fd;
+    padding: 0 12px;
+    font-size: 0.9rem;
+    border-radius: 50%;
+}
+
+.area-foto {
+    margin-top: 30px;
+    padding-top: 5px;
+}
+
+.dica-carrossel {
+    font-size: 0.85rem;
+    color: #5b7db1;
+    margin-bottom: 14px;
+    letter-spacing: 0.5px;
+}
+
+.carrossel-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carrossel-fotos {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Esconde a barra no Firefox */
+    width: 100%;
+    padding: 10px 4px 20px 4px;
+    cursor: grab;
+    user-select: none;
+}
+
+/* Esconde a barra de rolagem no Chrome/Safari/Edge */
+.carrossel-fotos::-webkit-scrollbar {
+    display: none;
+}
+
+.carrossel-fotos.arrastando {
+    cursor: grabbing;
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+}
+
+.moldura-foto {
+    flex: 0 0 100%;
+    scroll-snap-align: center;
+    background: #ffffff;
+    padding: 14px 14px 22px 14px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(30, 60, 114, 0.16);
+    border: 1px solid #d6e6f9;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.moldura-foto img {
+    width: 100%;
+    max-width: 460px;
+    height: 360px;
+    border-radius: 10px;
+    display: block;
+    object-fit: cover;
+    pointer-events: none;
+}
+
+.legenda-foto {
+    margin-top: 16px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.65rem;
+    color: #1e3c72;
+}
+
+/* Botões laterais de passar foto */
+.btn-carrossel {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.92);
+    color: #1e3c72;
+    border: 1px solid #bfd8f7;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(30, 60, 114, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transition: all 0.2s ease;
+}
+
+.btn-carrossel:hover {
+    background: #2a5298;
+    color: #ffffff;
+    transform: translateY(-50%) scale(1.08);
+}
+
+.btn-anterior {
+    left: -14px;
+}
+
+.btn-proximo {
+    right: -14px;
+}
+
+/* Bolinhas indicadoras embaixo das fotos */
+.indicadores {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 6px;
+}
+
+.ponto {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #bfd8f7;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.ponto.ativo {
+    background-color: #2a5298;
+    width: 26px;
+    border-radius: 10px;
+}
+
+@media (max-width: 500px) {
+    .cartao-dedicatoria {
+        padding: 32px 18px;
+    }
+
+    h1 {
+        font-size: 2.3rem;
+    }
+
+    .bloco-texto p {
+        font-size: 0.98rem;
+    }
+
+    .moldura-foto img {
+        height: 290px;
+    }
+
+    .btn-anterior {
+        left: 4px;
+    }
+
+    .btn-proximo {
+        right: 4px;
+    }
+
+    .btn-carrossel {
+        width: 34px;
+        height: 34px;
+        font-size: 0.95rem;
+    }
+}
